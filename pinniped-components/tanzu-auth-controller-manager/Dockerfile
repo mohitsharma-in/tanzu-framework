@@ -4,6 +4,7 @@
 # Build from publicly reachable source by default, but allow people to re-build images on
 # top of their own trusted images.
 ARG BUILDER_BASE_IMAGE=golang:1.18
+ARG DISTROLESS_BASE_IMAGE=gcr.io/distroless/static:nonroot
 
 # Build the tanzu-auth-controller-manager binary
 FROM $BUILDER_BASE_IMAGE as builder
@@ -23,7 +24,7 @@ ARG LD_FLAGS
 ENV LD_FLAGS="$LD_FLAGS "'-extldflags "-static"'
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -ldflags "$LD_FLAGS" -o tanzu-auth-controller-manager .
 
-FROM gcr.io/distroless/static:nonroot
+FROM ${DISTROLESS_BASE_IMAGE}
 WORKDIR /
 COPY --from=builder /workspace/tanzu-auth-controller-manager .
 USER nonroot:nonroot

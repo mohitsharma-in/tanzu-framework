@@ -4,6 +4,7 @@
 # Build from publicly reachable source by default, but allow people to re-build images on
 # top of their own trusted images.
 ARG BUILDER_BASE_IMAGE=golang:1.18
+ARG DISTROLESS_BASE_IMAGE=gcr.io/distroless/static:nonroot
 
 # Build the post-deploy binary
 FROM $BUILDER_BASE_IMAGE as builder
@@ -30,7 +31,7 @@ RUN make native -C post-deploy
 RUN mkdir -p /tmp/links
 RUN ln -s /tkg-pinniped-post-deploy-job /tmp/links/tkg-pinniped-post-deploy
 
-FROM gcr.io/distroless/static:nonroot
+FROM ${DISTROLESS_BASE_IMAGE}
 WORKDIR /
 # Make sure to copy the symlink.
 COPY --from=builder /tmp/links/ .

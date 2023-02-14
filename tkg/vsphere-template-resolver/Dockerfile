@@ -4,6 +4,7 @@
 # Build from publicly reachable source by default, but allow people to re-build images on
 # top of their own trusted images.
 ARG BUILDER_BASE_IMAGE=golang:1.18
+ARG DISTROLESS_BASE_IMAGE=gcr.io/distroless/static:nonroot
 
 # Build the manager binary
 FROM $BUILDER_BASE_IMAGE as builder
@@ -40,7 +41,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -ldflags "$
 
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
-FROM gcr.io/distroless/static:nonroot
+FROM ${DISTROLESS_BASE_IMAGE}
 WORKDIR /
 COPY --from=builder /workspace/tkg/manager .
 USER nonroot:nonroot
