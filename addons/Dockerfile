@@ -5,7 +5,8 @@
 # top of their own trusted images.
 ARG BUILDER_BASE_IMAGE=golang:1.18
 ARG DISTROLESS_BASE_IMAGE=gcr.io/distroless/static:nonroot
-
+ARG GOSUMDB
+ARG GOPROXY
 # Build the manager binary
 FROM $BUILDER_BASE_IMAGE as builder
 
@@ -13,9 +14,14 @@ WORKDIR /workspace
 
 # Copy the go source
 COPY ./ ./
-
+ENV GOSUMDB=$GOSUMDB
+ENV GOPROXY=$GOPROXY
 # cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer
+ARG GOSUMDB
+ARG GOPROXY
+ENV GOSUMDB=$GOSUMDB
+ENV GOPROXY=$GOPROXY
 RUN go mod download
 
 # Build

@@ -22,7 +22,10 @@ COPY post-deploy/cmd/ post-deploy/cmd/
 COPY post-deploy/pkg/ post-deploy/pkg/
 COPY post-deploy/Makefile post-deploy/Makefile
 #COPY .git/ .git/
-
+ARG GOSUMDB
+ARG GOPROXY
+ENV GOSUMDB=$GOSUMDB
+ENV GOPROXY=$GOPROXY
 RUN make native -C post-deploy
 
 # Support older deployment YAMLs by providing symlink for the historic job name without -job.

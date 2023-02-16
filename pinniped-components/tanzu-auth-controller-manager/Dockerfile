@@ -13,6 +13,10 @@ WORKDIR /workspace
 # Copy the Go Modules manifests
 COPY go.mod go.mod
 COPY go.sum go.sum
+ARG GOSUMDB
+ARG GOPROXY
+ENV GOSUMDB=$GOSUMDB
+ENV GOPROXY=$GOPROXY
 RUN go mod download
 
 # Copy the source

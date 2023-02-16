@@ -20,6 +20,11 @@ COPY cli/runtime cli/runtime
 COPY capabilities/client capabilities/client
 
 WORKDIR featuregates/controller
+ARG GOSUMDB
+ARG GOPROXY
+ENV GOSUMDB=$GOSUMDB
+ENV GOPROXY=$GOPROXY
+
 RUN  go mod download
 # cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer

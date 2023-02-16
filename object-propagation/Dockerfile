@@ -19,6 +19,10 @@ COPY object-propagation/go.mod object-propagation/go.mod
 COPY object-propagation/go.sum object-propagation/go.sum
 
 WORKDIR /workspace/object-propagation
+ARG GOSUMDB
+ARG GOPROXY
+ENV GOSUMDB=$GOSUMDB
+ENV GOPROXY=$GOPROXY
 RUN  go mod download
 # cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer

@@ -43,7 +43,7 @@ endif
 
 .PHONY: docker-build
 docker-build: ## Build docker image
-	docker build -t $(IMG) -f Dockerfile --build-arg LD_FLAGS="$(LD_FLAGS)" --build-arg DISTROLESS_BASE_IMAGE="$(DISTROLESS_BASE_IMAGE)" -e GOPROXY="$(GOPROXY)" -e GOSUMDB="$(GOSUMDB)" .
+	docker build -t $(IMG) -f Dockerfile --build-arg LD_FLAGS="$(LD_FLAGS)" --build-arg DISTROLESS_BASE_IMAGE="$(DISTROLESS_BASE_IMAGE)" --build-arg GOPROXY="$(GOPROXY)" --build-arg GOSUMDB="$(GOSUMDB)" .
 
 .PHONY: docker-publish
 docker-publish: ## Publish docker image

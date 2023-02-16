@@ -26,16 +26,16 @@ if [[ -z "${BUILDER_BASE_IMAGE}" ]];
 then
   docker build \
     --build-arg DISTROLESS_BASE_IMAGE="${DISTROLESS_BASE_IMAGE}" \
-    -e GOPROXY="${GOPROXY}" \
-    -e GOSUMDB="${GOSUMDB}" \
+    --build-arg GOPROXY="${GOPROXY}" \
+    --build-arg GOSUMDB="${GOSUMDB}" \
     -t "${FULL_IMAGE_NAME}" \
     -f "${ROOT_DIR}"/Dockerfile ..
 else
   docker build \
     --build-arg BUILDER_BASE_IMAGE="${BUILDER_BASE_IMAGE}" \
     --build-arg DISTROLESS_BASE_IMAGE="${DISTROLESS_BASE_IMAGE}" \
-    -e GOPROXY="${GOPROXY}" \
-    -e GOSUMDB="${GOSUMDB}" \
+    --build-arg GOPROXY="${GOPROXY}" \
+    --build-arg GOSUMDB="${GOSUMDB}" \
     -t "${FULL_IMAGE_NAME}" \
     -f "${ROOT_DIR}"/Dockerfile ..
 fi

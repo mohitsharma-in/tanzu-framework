@@ -18,6 +18,10 @@ COPY apis/ apis/
 COPY cli/runtime cli/runtime
 
 WORKDIR capabilities/controller
+ARG GOSUMDB
+ARG GOPROXY
+ENV GOSUMDB=$GOSUMDB
+ENV GOPROXY=$GOPROXY
 RUN  go mod download
 
 # Build

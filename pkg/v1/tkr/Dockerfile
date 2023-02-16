@@ -19,6 +19,10 @@ COPY pkg/v1/tkr/go.mod pkg/v1/tkr/go.mod
 COPY pkg/v1/tkr/go.sum pkg/v1/tkr/go.sum
 
 WORKDIR /workspace/pkg/v1/tkr
+ARG GOSUMDB
+ARG GOPROXY
+ENV GOSUMDB=$GOSUMDB
+ENV GOPROXY=$GOPROXY
 RUN  go mod download
 # cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer
