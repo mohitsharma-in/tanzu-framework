@@ -16,7 +16,7 @@ else
 endif
 
 #Adding Support for GOPROXY and GOSUMDB
-GOPROXY ?= direct
+GOPROXY ?= "https://proxy.golang.org,direct"
 GOSUMDB ?= off
 DISTROLESS_BASE_IMAGE ?= gcr.io/distroless/static:nonroot
 

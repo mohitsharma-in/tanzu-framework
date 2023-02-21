@@ -11,7 +11,7 @@ GIT_REF_LONG = $(shell git rev-parse --verify HEAD)
 # Release version
 VERSION ?= $(GIT_VERSION)
 #Adding Support for GOPROXY and GOSUMDB
-GOPROXY ?= direct
+GOPROXY ?= "https://proxy.golang.org,direct"
 GOSUMDB ?= off
 DISTROLESS_BASE_IMAGE ?= gcr.io/distroless/static:nonroot
 

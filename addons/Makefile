@@ -18,7 +18,7 @@ IMG_DEFAULT_NAME_TAG := $(IMG_DEFAULT_NAME):latest
 IMG_VERSION_OVERRIDE ?= $(shell git describe --always --dirty --tags)
 
 #Adding Support for GOPROXY and GOSUMDB
-GOPROXY ?= direct
+GOPROXY ?= "https://proxy.golang.org,direct"
 GOSUMDB ?= off
 DISTROLESS_BASE_IMAGE ?= gcr.io/distroless/static:nonroot
 

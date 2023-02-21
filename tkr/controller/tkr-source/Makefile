@@ -10,7 +10,7 @@ IMG_DEFAULT_NAME_TAG := $(IMG_DEFAULT_NAME):$(IMG_DEFAULT_TAG)
 IMG_VERSION_OVERRIDE ?= $(IMG_DEFAULT_TAG)
 
 #Adding Support for GOPROXY and GOSUMDB
-GOPROXY ?= direct
+GOPROXY ?= "https://proxy.golang.org,direct"
 GOSUMDB ?= off
 DISTROLESS_BASE_IMAGE ?= gcr.io/distroless/static:nonroot
 
