@@ -41,7 +41,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags "$LD_FLAGS" -o ma
 
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
-FROM ${DISTROLESS_BASE_IMAGE}
+FROM $DISTROLESS_BASE_IMAGE
 WORKDIR /
 COPY --from=builder /workspace/featuregates/controller/manager .
 USER nonroot:nonroot

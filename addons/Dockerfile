@@ -5,8 +5,6 @@
 # top of their own trusted images.
 ARG BUILDER_BASE_IMAGE=golang:1.18
 ARG DISTROLESS_BASE_IMAGE=gcr.io/distroless/static:nonroot
-ARG GOSUMDB
-ARG GOPROXY
 # Build the manager binary
 FROM $BUILDER_BASE_IMAGE as builder
 
@@ -14,8 +12,6 @@ WORKDIR /workspace
 
 # Copy the go source
 COPY ./ ./
-ENV GOSUMDB=$GOSUMDB
-ENV GOPROXY=$GOPROXY
 # cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer
 ARG GOSUMDB
@@ -31,7 +27,7 @@ RUN cd addons && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -
 
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
-FROM ${DISTROLESS_BASE_IMAGE}
+FROM $DISTROLESS_BASE_IMAGE
 WORKDIR /
 COPY --from=builder /workspace/addons/bin/manager .
 USER nonroot:nonroot
