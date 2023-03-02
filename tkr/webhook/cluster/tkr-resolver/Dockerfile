@@ -6,6 +6,7 @@
 # Build from publicly reachable source by default, but allow people to re-build images on
 # top of their own trusted images.
 ARG BUILDER_BASE_IMAGE=golang:1.18
+ARG DISTROLESS_BASE_IMAGE=gcr.io/distroless/static:nonroot
 
 # Build the manager binary
 FROM $BUILDER_BASE_IMAGE as builder
@@ -20,7 +21,12 @@ COPY tkr/go.mod tkr/go.mod
 COPY tkr/go.sum tkr/go.sum
 
 WORKDIR /workspace/tkr
+ARG GOSUMDB
+ARG GOPROXY
+ENV GOSUMDB=$GOSUMDB
+ENV GOPROXY=$GOPROXY
 RUN --mount=type=cache,target=/root/.cache/go-build --mount=type=cache,target=/root/.local/share/golang --mount=type=cache,target=/go/pkg/mod go mod download
+
 # cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer
 
@@ -34,7 +40,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build --mount=type=cache,target=/r
 
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
-FROM gcr.io/distroless/static:nonroot
+FROM $DISTROLESS_BASE_IMAGE
 WORKDIR /
 COPY --from=builder /workspace/tkr/manager .
 USER nonroot:nonroot
